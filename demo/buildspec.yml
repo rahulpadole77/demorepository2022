@@ -10,5 +10,5 @@ phases:
       - echo Build completed successfully
 artifacts:
   files:
-    - target/springboot-demo-app.war
+    - target/springboot-demo-app.jar
   discard-paths: yes
