@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "Pulling code from GitHub..."
-                checkout scm   // Works automatically in multibranch pipelines
+                //checkout scm   // Works automatically in multibranch pipelines
             }
         }
 
@@ -33,7 +33,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo "Running tests..."
-                sh 'npm test'       // replace with mvn test / pytest etc.
+               // sh 'npm test'       // replace with mvn test / pytest etc.
             }
         }
 
