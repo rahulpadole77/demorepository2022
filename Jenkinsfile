@@ -1,72 +1,44 @@
 
 pipeline {
-    agent any   // Use any available Jenkins agent/runner
-
-    environment {
-        // Add global variables here
-        APP_ENV = "dev"
-    }
+    agent any
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo "Pulling code from GitHub..."
-                //checkout scm   // Works automatically in multibranch pipelines
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                echo "Installing dependencies..."
-                sh 'mvn clean install'   // replace with mvn install / pip install etc.
+                echo "Checking out code..."
+                checkout scm   // Auto‑checkout when using Multibranch
             }
         }
 
         stage('Build') {
             steps {
                 echo "Building application..."
-                //sh 'npm run build'  // replace with your build command
+                sh "echo Build step goes here"
             }
         }
 
         stage('Test') {
             steps {
                 echo "Running tests..."
-               // sh 'npm test'       // replace with mvn test / pytest etc.
-            }
-        }
-
-        stage('Package Artifact') {
-            steps {
-                echo "Packaging artifacts..."
-                //sh 'zip -r build.zip build/'  // Example package step
-                //archiveArtifacts artifacts: 'build.zip'
+                sh "echo Test step goes here"
             }
         }
 
         stage('Deploy') {
-            when {
-                branch 'main'   // Only deploy when building main branch
-            }
             steps {
-                echo "Deploying to environment: ${APP_ENV}"
-                sh 'echo "Deploying application..."'
-                // insert kubectl, ansible, terraform, scp etc.
+                echo "Deploying application..."
+                sh "echo Deploy step goes here"
             }
         }
     }
 
     post {
         success {
-            echo "Pipeline completed successfully!"
+            echo "✔ Pipeline completed successfully!"
         }
         failure {
-            echo "Pipeline failed!"
-        }
-        always {
-            echo "Cleaning workspace..."
-            cleanWs()
+            echo "❌ Pipeline failed!"
         }
     }
 }
