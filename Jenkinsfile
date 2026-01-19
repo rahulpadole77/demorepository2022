@@ -19,14 +19,14 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo "Installing dependencies..."
-                sh 'npm install'   // replace with mvn install / pip install etc.
+                sh 'mvn clean install'   // replace with mvn install / pip install etc.
             }
         }
 
         stage('Build') {
             steps {
                 echo "Building application..."
-                sh 'npm run build'  // replace with your build command
+                //sh 'npm run build'  // replace with your build command
             }
         }
 
@@ -40,8 +40,8 @@ pipeline {
         stage('Package Artifact') {
             steps {
                 echo "Packaging artifacts..."
-                sh 'zip -r build.zip build/'  // Example package step
-                archiveArtifacts artifacts: 'build.zip'
+                //sh 'zip -r build.zip build/'  // Example package step
+                //archiveArtifacts artifacts: 'build.zip'
             }
         }
 
