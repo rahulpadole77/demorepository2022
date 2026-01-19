@@ -1,44 +1,50 @@
 
 pipeline {
-    agent any
+    agent any   // Use any available Jenkins agent/runner
+
+    environment {
+        // Add global variables here
+        APP_ENV = "dev"
+    }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo "Checking out code..."
-                checkout scm   // Auto‑checkout when using Multibranch
+                echo "Pulling code from GitHub..."
+                checkout scm   // Works automatically in multibranch pipelines
             }
         }
 
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo "Building application..."
-                sh "echo Build step goes here"
+                echo "Installing dependencies..."
+                bat 'mvn -B clean install'   // replace with mvn install / pip install etc.
             }
-        }
-
-        stage('Test') {
-            steps {
-                echo "Running tests..."
-                sh "echo Test step goes here"
-            }
-        }
-
+        }      
+                
         stage('Deploy') {
+            when {
+                branch 'main'   // Only deploy when building main branch
+            }
             steps {
-                echo "Deploying application..."
-                sh "echo Deploy step goes here"
+                echo "Deploying to environment: ${APP_ENV}"
+                bat 'echo "Deploying application..."'
+                // insert kubectl, ansible, terraform, scp etc.
             }
         }
     }
 
     post {
         success {
-            echo "✔ Pipeline completed successfully!"
+            echo "Pipeline completed successfully!"
         }
         failure {
-            echo "❌ Pipeline failed!"
+            echo "Pipeline failed!"
+        }
+        always {
+            echo "Cleaning workspace..."
+            cleanWs()
         }
     }
 }
