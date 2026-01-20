@@ -1,6 +1,10 @@
 
 pipeline {
     agent any   // Use any available Jenkins agent/runner
+    
+    tools {
+        maven 'M3'
+    }
 
     environment {
         // Add global variables here
