@@ -1,6 +1,6 @@
 
 pipeline {
-    agent any   // Use any available Jenkins agent/runner
+    //agent any   // Use any available Jenkins agent/runner
     
     tools {
         maven 'M3'
