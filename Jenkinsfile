@@ -27,11 +27,12 @@ pipeline {
                     '_JAVA_OPTIONS=',
                     'MAVEN_OPTS=',
                     'CLASSPATH='
-                ])
-                echo "Installing dependencies..."
-                bat 'mvn -Dmaven.test.failure.ignore=true clean install'   // replace with mvn install / pip install etc.
+                ]) {
+                    echo "Installing dependencies..."
+                    bat 'mvn -Dmaven.test.failure.ignore=true clean install'   // replace with mvn install / pip install etc.
+                }
             }
-        }      
+        }
                 
         stage('Deploy') {
             when {
