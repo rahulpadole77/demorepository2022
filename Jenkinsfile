@@ -22,16 +22,16 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {                
-                     {                    
-                        bat """
-                            set JAVA_TOOL_OPTIONS
-                            set _JAVA_OPTIONS
-                            set MAVEN_OPTS
-                            set CLASSPATH
-                        """
-                        echo "Installing dependencies..."
-                        bat 'mvn -B clean install'   // replace with mvn install / pip install etc.
-                    }
+                                         
+                bat """
+                    set JAVA_TOOL_OPTIONS
+                    set _JAVA_OPTIONS
+                    set MAVEN_OPTS
+                    set CLASSPATH
+                """
+                echo "Installing dependencies..."
+                bat 'mvn -B clean install'   // replace with mvn install / pip install etc.
+                    
             }
         }
                 
