@@ -21,7 +21,13 @@ pipeline {
         }
 
         stage('Install Dependencies') {
-            steps {
+            steps {                
+                withEnv([
+                    'JAVA_TOOL_OPTIONS=',
+                    '_JAVA_OPTIONS=',
+                    'MAVEN_OPTS=',
+                    'CLASSPATH='
+                ])
                 echo "Installing dependencies..."
                 bat 'mvn -Dmaven.test.failure.ignore=true clean install'   // replace with mvn install / pip install etc.
             }
