@@ -41,7 +41,7 @@ pipeline {
                     powershell '''
                         python -m venv venv
                         .\\venv\\Scripts\\activate
-                        python.exe main.py
+                        python.exe .\\custom\\main.py
                     '''
              }
         }
