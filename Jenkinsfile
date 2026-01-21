@@ -39,8 +39,9 @@ pipeline {
         stage('Run Python Script') {
             steps {
                     powershell '''
-                        source venv/bin/activate
-                        python main.py
+                        python -m venv venv
+                        .\\venv\\Scripts\\activate
+                        python.exe main.py
                     '''
              }
         }
