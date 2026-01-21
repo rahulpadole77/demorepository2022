@@ -8,7 +8,11 @@ pipeline {
 
     environment {
         // Add global variables here
-        APP_ENV = "dev"
+        APP_ENV = "dev"        
+        PYTHON = "C:\\Program Files\\Python313\\python.exe"      // Path to Python
+        //DEV_SERVER = "dev.example.com"            // Replace with your DEV target
+        DEV_DEPLOY_PATH = "C:\\deploy\\app"       // DEPLOY directory in DEV
+
     }
 
     stages {
@@ -19,7 +23,17 @@ pipeline {
                 checkout scm   // Works automatically in multibranch pipelines
             }
         }
-
+        
+        stage('Setup Python Environment') {
+                    steps {
+                        powershell '''
+                            Write-Host "Creating virtual environment..."
+                            python -m venv venv
+                            .\\venv\\Scripts\\activate
+                            pip install --upgrade pip                            
+                        '''
+                    }
+       }
           
         stage('Install Dependencies') {
             steps {                  
