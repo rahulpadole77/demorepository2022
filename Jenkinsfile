@@ -20,18 +20,7 @@ pipeline {
             }
         }
 
-        
-   
-        stage('Shell Test') {
-            steps {
-                sh '''
-                    echo "Running shell commands"
-                    uname -a
-                '''
-            }
-        }
-
-
+          
         stage('Install Dependencies') {
             steps {                  
                 echo "Installing dependencies..."
