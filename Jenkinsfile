@@ -23,7 +23,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {                  
                 echo "Installing dependencies..."
-                sh 'mvn -B clean install'   // replace with mvn install / pip install etc.                    
+                bat 'mvn -B clean install'   // replace with mvn install / pip install etc.                    
             }
         }
                 
