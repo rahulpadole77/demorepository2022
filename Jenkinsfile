@@ -58,12 +58,7 @@ pipeline {
         }
                 
         stage('Deploy') {
-
-            steps{
-                git branch: 'main', 
-                    url: 'https://github.com/rahulpadole77/demorepository2022.git',
-                    credentialsId:'git-access-api'
-            }
+          
             when {                
                 branch 'main'   // Only deploy when building main branch
             }
