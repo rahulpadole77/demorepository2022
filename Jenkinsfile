@@ -44,7 +44,7 @@ pipeline {
                     powershell '''
                         python -m venv venv
                         .\\venv\\Scripts\\activate
-                        python.exe .\\custom\\main.py
+                        python.exe .\\demo\\src\\main\\resources\\main.py
                     '''
              }
         }
@@ -59,6 +59,9 @@ pipeline {
                 
         stage('Deploy') {
             when {
+                git branch: 'main', 
+                    url: 'https://github.com/rahulpadole77/demorepository2022.git',
+                    credentialsId:'git-access-api'
                 branch 'main'   // Only deploy when building main branch
             }
             steps {
