@@ -58,13 +58,17 @@ pipeline {
         }
                 
         stage('Deploy') {
-            when {
+
+            steps{
                 git branch: 'main', 
                     url: 'https://github.com/rahulpadole77/demorepository2022.git',
                     credentialsId:'git-access-api'
+            }
+            when {                
                 branch 'main'   // Only deploy when building main branch
             }
             steps {
+                
                 echo "Deploying to environment: ${APP_ENV}"
                 bat 'echo "Deploying application..."'
                 // insert kubectl, ansible, terraform, scp etc.
