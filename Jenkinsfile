@@ -51,7 +51,7 @@ pipeline {
                     powershell '''
                         python -m venv venv
                         .\\venv\\Scripts\\activate
-                        python .\\demo\\src\\main\\resources\\main.py
+                        python ${SCRIPT_TO_RUN}
                     '''
              }
         }
