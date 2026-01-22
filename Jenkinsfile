@@ -16,7 +16,7 @@ pipeline {
         REPO_URL       = 'https://github.com/rahulpadole77/demorepository2022.git'
         CREDENTIALS_ID = 'git-access-api'
         VENV_DIR       = 'venv'
-        SCRIPT_TO_RUN  = '.\\demo\\src\\main\\resources\\main.py'
+        SCRIPT_TO_RUN  = ".\\demo\\src\\main\\resources\\main.py"
         ARTIFACT_DIR   = 'output'
 
 
