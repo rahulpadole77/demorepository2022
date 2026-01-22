@@ -40,7 +40,7 @@ pipeline {
                             Write-Host "Creating virtual environment..."
                             python -m venv venv
                             .\\venv\\Scripts\\activate
-                            ${PYTHON_EXE} -m pip install --upgrade pip                           
+                            python -m pip install --upgrade pip                           
                         '''
                     }
        }
