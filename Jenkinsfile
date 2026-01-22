@@ -9,9 +9,16 @@ pipeline {
     environment {
         // Add global variables here
         APP_ENV = "dev"        
-        PYTHON = "C:\\Program Files\\Python313\\python.exe"      // Path to Python
+        PYTHON_EXE = "C:\\Program Files\\Python313\\python.exe"      // Path to Python
         //DEV_SERVER = "dev.example.com"            // Replace with your DEV target
         DEV_DEPLOY_PATH = "C:\\deploy\\app"       // DEPLOY directory in DEV
+        
+        REPO_URL       = 'https://github.com/rahulpadole77/demorepository2022.git'
+        CREDENTIALS_ID = 'git-access-api'
+        VENV_DIR       = 'venv'
+        SCRIPT_TO_RUN  = '.\\demo\\src\\main\\resources\\main.py'
+        ARTIFACT_DIR   = 'output'
+
 
     }
 
@@ -21,8 +28,8 @@ pipeline {
             steps {
                 echo "Pulling code from GitHub..."
                 git branch: 'main', 
-                    url: 'https://github.com/rahulpadole77/demorepository2022.git',
-                    credentialsId:'git-access-api'
+                    url: "${REPO_URL}",
+                    credentialsId:"${CREDENTIALS_ID}"
                 //checkout scm   // Works automatically in multibranch pipelines
             }
         }
@@ -33,7 +40,7 @@ pipeline {
                             Write-Host "Creating virtual environment..."
                             python -m venv venv
                             .\\venv\\Scripts\\activate
-                            python.exe -m pip install --upgrade pip                           
+                            ${PYTHON_EXE} -m pip install --upgrade pip                           
                         '''
                     }
        }
@@ -44,7 +51,7 @@ pipeline {
                     powershell '''
                         python -m venv venv
                         .\\venv\\Scripts\\activate
-                        python.exe .\\demo\\src\\main\\resources\\main.py
+                        ${PYTHON_EXE} ${SCRIPT_TO_RUN}
                     '''
              }
         }
