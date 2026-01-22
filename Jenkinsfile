@@ -20,7 +20,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "Pulling code from GitHub..."
-                git branch: 'main', url: 'https://github.com/username/repo.git'
+                git branch: 'main', url: 'https://github.com/rahulpadole77/demorepository2022.git'
                 checkout scm   // Works automatically in multibranch pipelines
             }
         }
