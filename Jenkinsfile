@@ -20,6 +20,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "Pulling code from GitHub..."
+                git branch: 'main'
                 checkout scm   // Works automatically in multibranch pipelines
             }
         }
