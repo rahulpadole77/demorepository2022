@@ -23,7 +23,7 @@ pipeline {
                 git branch: 'main', 
                     url: 'https://github.com/rahulpadole77/demorepository2022.git',
                     credentialsId:'git-access-api'
-                checkout scm   // Works automatically in multibranch pipelines
+                //checkout scm   // Works automatically in multibranch pipelines
             }
         }
         
