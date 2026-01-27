@@ -18,6 +18,7 @@ pipeline {
         VENV_DIR       = 'venv'
         SCRIPT_TO_RUN  = ".\\demo\\src\\main\\resources\\main.py"
         ARTIFACT_DIR   = 'output'
+        DL_SUCCESS = 'rahul.padole@gmail.com'
 
 
     }
@@ -84,7 +85,7 @@ pipeline {
             
             emailext(
                     subject: "[SUCCESS] ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                    to: "${env.DEFAULT_RECIPIENTS}",
+                    to: "${DL_SUCCESS}",
                     mimeType: 'text/html',
                     body: """
                       <h3>Build Succeeded</h3>
