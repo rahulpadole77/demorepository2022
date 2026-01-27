@@ -81,6 +81,23 @@ pipeline {
     post {
         success {
             echo "Pipeline completed successfully!"
+            
+            emailext(
+                    subject: "[SUCCESS] ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    to: "${env.DEFAULT_RECIPIENTS}",
+                    mimeType: 'text/html',
+                    body: """
+                      <h3>Build Succeeded</h3>
+                      <p><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
+                      <p><b>Branch:</b> ${env.BRANCH_NAME ?: 'N/A'}</p>
+                      <p>${env.BUILD_URL}Open Build</a> |
+                         ${env.BUILD_URL}consoleConsole</a></p>
+                    """,
+                    attachLog: true,
+                    compressLog: true,
+                    attachmentsPattern: 'report.txt'
+                  )
+
         }
         failure {
             echo "Pipeline failed!"
