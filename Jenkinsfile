@@ -1,11 +1,11 @@
 // --- Helper: send email and wait for approval ---
 def emailAndWaitForApproval(Map cfg = [:]) {
   // Required keys with sensible defaults
-  def recipients   = cfg.recipients ?: 'release-approvers@example.com'
+  def recipients   = cfg.recipients ?: 'reyansh.rahul.2025@gmail.com'
   def title        = cfg.title ?: 'Deployment Approval Required'
   def detailsHtml  = cfg.detailsHtml ?: '<p>Please review and approve.</p>'
   def timeoutMins  = (cfg.timeoutMins ?: 60) as int
-  def submitter    = cfg.submitter ?: 'approver.user1,approver.user2' // users or groups
+  def submitter    = cfg.submitter ?: 'approver.user1' // users or groups 'approver.user1,approver.user2'
   def okLabel      = cfg.okLabel ?: 'Approve'
   def paramsToShow = cfg.params ?: [:] // Optional map to display in email
 
@@ -141,7 +141,7 @@ pipeline {
           steps {
             script {
               def approver = emailAndWaitForApproval(
-                recipients: 'rahul.padole@gmail.com,reyansh.rahul.2025@gmail.com',
+                recipients: 'reyansh.rahul.2025@gmail.com',
                 title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 timeoutMins: 60,
                 submitter: 'release.manager,prod.owner,qa.lead',   // users or groups
