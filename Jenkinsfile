@@ -1,6 +1,16 @@
 
 pipeline {
     agent any   // Use any available Jenkins agent/runner
+
+    parameters {
+    choice(name: 'ENV', choices: ['dev', 'qa', 'prod'], description: 'Target environment')
+    booleanParam(name: 'AUTO_APPROVE', defaultValue: false, description: 'Skip approvals (use with caution)')
+    }
+  options {
+    timestamps()
+    buildDiscarder(logRotator(numToKeepStr: '30'))
+    disableConcurrentBuilds() // avoid two deployments racing
+  }
     
     tools {
         maven 'M3'
@@ -19,7 +29,7 @@ pipeline {
         SCRIPT_TO_RUN  = ".\\demo\\src\\main\\resources\\main.py"
         ARTIFACT_DIR   = 'output'
         DL_SUCCESS = 'rahul.padole@gmail.com'
-
+        CHANGE_ID =12234
 
     }
 
@@ -64,6 +74,45 @@ pipeline {
                 bat 'mvn -B clean install'   // replace with mvn install / pip install etc.                    
             }
         }
+
+       stage('Approval Gate (Prod/Main only)') {
+          when {
+            allOf {
+              expression { params.ENV == 'dev' }
+              branch 'main'
+              expression { !params.AUTO_APPROVE }
+            }
+          }
+          steps {
+            script {
+              def approver = emailAndWaitForApproval(
+                recipients: 'rahul.padole@gmail.com,reyansh.rahul.2025@gmail.com',
+                title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                timeoutMins: 60,
+                submitter: 'release.manager,prod.owner,qa.lead',   // users or groups
+                params: [
+                  'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
+                  'Branch'     : (env.BRANCH_NAME ?: 'N/A'),
+                  'Build URL'  : env.BUILD_URL,
+                  'Env'        : params.ENV
+                ],
+                detailsHtml: """
+                  <p>This will deploy the following build to <b>PROD</b>.</p>
+                  <ul>
+                    <li>Artifact: <code>app-1.0.0.jar</code> (example)</li>
+                    <li>Change Ticket: <code>${CHANGE_ID ?: 'N/A'}</code></li>
+                  </ul>
+                """
+              )
+              if (!approver) {
+                currentBuild.result = 'ABORTED'
+                error('Approval timed out or approver identity not captured.')
+              } else {
+                echo "Approved by: ${approver}"
+              }
+            }
+          }
+    }
                 
         stage('Deploy') {
           
