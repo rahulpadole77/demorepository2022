@@ -25,9 +25,8 @@ def emailAndWaitForApproval(Map cfg = [:]) {
         <h2>${title}</h2>
         <p><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
         <p><b>Branch:</b> ${env.BRANCH_NAME ?: 'N/A'}</p>
-        <p><b>Triggered by:</b> ${currentBuild.rawBuild.getCauseOfAction('hudson.model.Cause$UserIdCause')?.userName ?: 'SCM/Timer'}</p>
         ${detailsHtml}
-        ${paramRows ? "<table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse;margin-top:10px;'>${paramRows}</table>" : ""}
+        <p>${env.BUILD_URL}input/<b>Open approval form</b></a> (login required)</p>
         <p style="margin-top:14px">
           ${approvalUrl}<b>Click here to review & approve in Jenkins</b></a>
         </p>
