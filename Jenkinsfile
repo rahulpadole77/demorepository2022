@@ -141,10 +141,10 @@ pipeline {
           steps {
             script {
               def approver = emailAndWaitForApproval(
-                recipients: 'reyansh.rahul.2025@gmail.com',
+                recipients: 'rahul.padole@gmail.com',
                 title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 timeoutMins: 60,
-                submitter: 'release.manager,prod.owner,qa.lead',   // users or groups
+                submitter: 'padole',   // users or groups
                 params: [
                   'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
                   'Branch'     : (env.BRANCH_NAME ?: 'N/A'),
