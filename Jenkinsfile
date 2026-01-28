@@ -1,7 +1,7 @@
 // --- Helper: send email and wait for approval ---
 def emailAndWaitForApproval(Map cfg = [:]) {
   // Required keys with sensible defaults
-  def recipients   = cfg.recipients ?: 'reyansh.rahul.2025@gmail.com'
+  def recipients   = cfg.recipients ?: 'rahul.padole@gmail.com'
   def title        = cfg.title ?: 'Deployment Approval Required'
   def detailsHtml  = cfg.detailsHtml ?: '<p>Please review and approve.</p>'
   def timeoutMins  = (cfg.timeoutMins ?: 60) as int
