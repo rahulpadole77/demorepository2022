@@ -26,10 +26,9 @@ def emailAndWaitForApproval(Map cfg = [:]) {
         <p><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
         <p><b>Branch:</b> ${env.BRANCH_NAME ?: 'N/A'}</p>
         ${detailsHtml}
+        {paramRows ? "<table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse;margin-top:8px'>${paramRows}</table>" : ""}
         <p>${env.BUILD_URL}input/<b>Open approval form</b></a> (login required)</p>
-        <p style="margin-top:14px">
-          ${approvalUrl}<b>Click here to review & approve in Jenkins</b></a>
-        </p>
+        <p style="margin-top:14px">${approvalUrl}<b>Open approval form</b></a> (login required)</p>
         <hr/>
         <p>This link requires Jenkins login. Approval window: ${timeoutMins} minutes.</p>
       </body></html>
