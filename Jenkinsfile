@@ -46,6 +46,7 @@ def emailAndWaitForApproval(Map cfg = [:]) {
       // Users and/or groups allowed to approve (comma-separated).
       // If you specify groups, ensure Role Strategy or Matrix auth maps them correctly.
       submitter: submitter,
+      submitterParameter: 'APPROVER',
       parameters: [
         string(name: 'Justification', defaultValue: '', description: 'Reason / Change ticket / CAB ref')
       ]
