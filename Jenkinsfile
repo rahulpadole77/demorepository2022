@@ -164,7 +164,7 @@ pipeline {
                 currentBuild.result = 'ABORTED'
                 error('Approval timed out or approver identity not captured.')
               } else {
-                echo "Approved by: ${approver}"
+                echo "Approved by the authorized user: ${approver}"
               }
             }
           }
