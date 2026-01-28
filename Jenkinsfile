@@ -51,9 +51,9 @@ def emailAndWaitForApproval(Map cfg = [:]) {
         string(name: 'Justification', defaultValue: '', description: 'Reason / Change ticket / CAB ref')
       ]
     )
-    approver = currentBuild.rawBuild.getAction(hudson.model.CauseAction)?.causes?.find { it.userId }?.userId
+    //approver = currentBuild.rawBuild.getAction(hudson.model.CauseAction)?.causes?.find { it.userId }?.userId
   }
-  return approver
+  return env.APPROVER
 }
 pipeline {
     agent any   // Use any available Jenkins agent/runner
