@@ -160,7 +160,7 @@ pipeline {
                 """
               )
               echo "Approval is given by: ${approver}"
-              if (!approver) {
+              if (!"${approver}") {
                 currentBuild.result = 'ABORTED'
                 error('Approval timed out or approver identity not captured.')
               } else {
