@@ -78,8 +78,8 @@ pipeline {
        stage('Approval Gate (dev)') {
           when {
             allOf {
-              expression { params.ENV == 'dev' }
-              branch 'main'
+              //expression { params.ENV == 'dev' }
+              //branch 'main'
               expression { !params.AUTO_APPROVE }
             }
           }
