@@ -206,8 +206,14 @@ pipeline {
 
         }
         failure {
-            echo "Pipeline failed!"
-        }
+          emailext(
+            subject: "[FAILED] ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            to: "${DL_SUCCESS}",
+            mimeType: 'text/html',
+            body: "<p>See console: ${env.BUILD_URL}consoleConsole Log</a></p>",
+            attachLog: true, compressLog: true
+          )
+      }
         always {
             echo "Cleaning workspace..."
             //cleanWs()
