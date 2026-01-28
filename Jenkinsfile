@@ -1,4 +1,60 @@
+// --- Helper: send email and wait for approval ---
+def emailAndWaitForApproval(Map cfg = [:]) {
+  // Required keys with sensible defaults
+  def recipients   = cfg.recipients ?: 'release-approvers@example.com'
+  def title        = cfg.title ?: 'Deployment Approval Required'
+  def detailsHtml  = cfg.detailsHtml ?: '<p>Please review and approve.</p>'
+  def timeoutMins  = (cfg.timeoutMins ?: 60) as int
+  def submitter    = cfg.submitter ?: 'approver.user1,approver.user2' // users or groups
+  def okLabel      = cfg.okLabel ?: 'Approve'
+  def paramsToShow = cfg.params ?: [:] // Optional map to display in email
 
+  // Build a simple table for parameters (optional)
+  def paramRows = paramsToShow.collect { k, v -> "<tr><td><b>${k}</b></td><td>${v}</td></tr>" }.join('\n')
+
+  // Approval link (works after login)
+  def approvalUrl = "${env.BUILD_URL}input/"
+
+  emailext(
+    subject: "[ACTION NEEDED] ${title} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+    to: recipients,
+    mimeType: 'text/html',
+    body: """
+      <html>
+      <body style="font-family:Arial, sans-serif">
+        <h2>${title}</h2>
+        <p><b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
+        <p><b>Branch:</b> ${env.BRANCH_NAME ?: 'N/A'}</p>
+        <p><b>Triggered by:</b> ${currentBuild.rawBuild.getCauseOfAction('hudson.model.Cause$UserIdCause')?.userName ?: 'SCM/Timer'}</p>
+        ${detailsHtml}
+        ${paramRows ? "<table border='1' cellpadding='6' cellspacing='0' style='border-collapse:collapse;margin-top:10px;'>${paramRows}</table>" : ""}
+        <p style="margin-top:14px">
+          ${approvalUrl}<b>Click here to review & approve in Jenkins</b></a>
+        </p>
+        <hr/>
+        <p>This link requires Jenkins login. Approval window: ${timeoutMins} minutes.</p>
+      </body></html>
+    """
+  )
+
+  // Wait for approval with timeout & submitter restriction
+  def approver = null
+  timeout(time: timeoutMins, unit: 'MINUTES') {
+    def userInput = input(
+      id: 'ApprovalGate',
+      message: title,
+      ok: okLabel,
+      // Users and/or groups allowed to approve (comma-separated).
+      // If you specify groups, ensure Role Strategy or Matrix auth maps them correctly.
+      submitter: submitter,
+      parameters: [
+        string(name: 'Justification', defaultValue: '', description: 'Reason / Change ticket / CAB ref')
+      ]
+    )
+    approver = currentBuild.rawBuild.getAction(hudson.model.CauseAction)?.causes?.find { it.userId }?.userId
+  }
+  return approver
+}
 pipeline {
     agent any   // Use any available Jenkins agent/runner
 
@@ -112,7 +168,7 @@ pipeline {
               }
             }
           }
-    }
+        }
                 
         stage('Deploy') {
           
