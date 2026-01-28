@@ -75,7 +75,7 @@ pipeline {
             }
         }
 
-       stage('Approval Gate (dev/Main only)') {
+       stage('Approval Gate (dev)') {
           when {
             allOf {
               expression { params.ENV == 'dev' }
