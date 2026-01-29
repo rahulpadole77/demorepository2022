@@ -171,10 +171,19 @@ pipeline {
         }
                 
         stage('Deploy') {
-          
-            when {                
-                branch 'main'   // Only deploy when building main branch
+                     
+            anyOf {
+                  // Multibranch: regular branch build
+                  branch 'main'
+                  // Classic Pipeline or values like origin/main
+                  expression { env.GIT_BRANCH == 'origin/main' }
+                  // PR builds that target main
+                  allOf {
+                    expression { env.CHANGE_TARGET == 'main' }
+                    //changeRequest()  // ensures it's actually a PR context
+                    }
             }
+
             steps {
                 
                 echo "Deploying to environment: ${APP_ENV}"
