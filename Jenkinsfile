@@ -171,7 +171,7 @@ pipeline {
         }
                 
         stage('Deploy') {
-                     
+          when {           
             anyOf {
                   // Multibranch: regular branch build
                   branch 'main'
@@ -182,15 +182,14 @@ pipeline {
                     expression { env.CHANGE_TARGET == 'main' }
                     //changeRequest()  // ensures it's actually a PR context
                     }
-            }
+                  }
+          }
 
-            steps {
-                
+            steps {                
                 echo "Deploying to environment: ${APP_ENV}"
                 bat 'echo "Deploying application..."'
                 // insert kubectl, ansible, terraform, scp etc.
-            }
-        }
+            }        
     }
 
     post {
