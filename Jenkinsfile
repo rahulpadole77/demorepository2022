@@ -189,7 +189,8 @@ pipeline {
                 echo "Deploying to environment: ${APP_ENV}"
                 bat 'echo "Deploying application..."'
                 // insert kubectl, ansible, terraform, scp etc.
-            }        
+            } 
+        }
     }
 
     post {
