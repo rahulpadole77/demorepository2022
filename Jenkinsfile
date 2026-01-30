@@ -194,7 +194,7 @@ pipeline {
                  build job: 'Downstream-Job-Name',
                       parameters: [
                          string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
-                         string(name: 'ENV', value: 'prod'),
+                         string(name: 'ENV', value: 'dev'),
                          string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'unknown')
                        ],
                        wait: false
