@@ -191,13 +191,13 @@ pipeline {
 
                 
                 // --- OR trigger a downstream job (uncomment to use) ---
-                 build job: 'Downstream-Job-Name',
-                      parameters: [
-                         string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
-                         string(name: 'ENV', value: 'dev'),
-                         string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
-                       ],
-                       wait: false
+                // build job: 'Downstream-Job-Name',
+                 //     parameters: [
+                 //        string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
+                  //       string(name: 'ENV', value: 'dev'),
+                 //        string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
+                 //      ],
+                 //      wait: false
 
                
                 // insert kubectl, ansible, terraform, scp etc.
