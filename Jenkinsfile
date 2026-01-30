@@ -147,7 +147,7 @@ pipeline {
                 submitter: 'dev_user',   // users or groups
                 params: [
                   'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
-                  'Branch'     : (env.BRANCH_NAME ?: 'N/A'),
+                  'Branch'     : $(env.GIT_BRANCH), //(env.BRANCH_NAME ?: 'N/A')
                   'Build URL'  : env.BUILD_URL,
                   'Env'        : params.ENV
                 ],
@@ -188,6 +188,18 @@ pipeline {
             steps {                
                 echo "Deploying to environment: ${APP_ENV}"
                 bat 'echo "Deploying application..."'
+
+                
+                // --- OR trigger a downstream job (uncomment to use) ---
+                 build job: 'Downstream-Job-Name',
+                      parameters: [
+                         string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
+                         string(name: 'ENV', value: 'prod'),
+                         string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'unknown')
+                       ],
+                       wait: false
+
+               
                 // insert kubectl, ansible, terraform, scp etc.
             } 
         }
