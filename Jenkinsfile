@@ -125,8 +125,8 @@ pipeline {
           
         stage('Install Dependencies') {
             steps {                  
-                echo "Installing dependencies..."
-                bat 'mvn -B clean install'   // replace with mvn install / pip install etc.                    
+                //echo "Installing dependencies..."
+                //bat 'mvn -B clean install'   // replace with mvn install / pip install etc.                    
             }
         }
 
