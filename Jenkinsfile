@@ -5,7 +5,7 @@ def emailAndWaitForApproval(Map cfg = [:]) {
   def title        = cfg.title ?: 'Deployment Approval Required'
   def detailsHtml  = cfg.detailsHtml ?: '<p>Please review and approve.</p>'
   def timeoutMins  = (cfg.timeoutMins ?: 60) as int
-  def submitter    = cfg.submitter ?: 'padole' // users or groups 'approver.user1,approver.user2'
+  def submitter    = cfg.submitter ?: 'dev_user' // users or groups 'approver.user1,approver.user2'
   def okLabel      = cfg.okLabel ?: 'Approve'
   def paramsToShow = cfg.params ?: [:] // Optional map to display in email
 
@@ -141,10 +141,10 @@ pipeline {
           steps {
             script {
               def approver = emailAndWaitForApproval(
-                recipients: 'rahul.padole@gmail.com',
+                recipients: 'reyansh.rahul.2025@gmail.com',
                 title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 timeoutMins: 60,
-                submitter: 'padole',   // users or groups
+                submitter: 'dev_user',   // users or groups
                 params: [
                   'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
                   'Branch'     : (env.BRANCH_NAME ?: 'N/A'),
