@@ -190,7 +190,7 @@ pipeline {
               echo "Deploying application..."    
 
               // --- OR trigger a downstream job (uncomment to use) ---
-                 build job: 'Downstream-Job-Name',
+                 build job: 'TestBuildJan30',
                       parameters: [
                          string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
                          string(name: 'ENV', value: 'dev'),
