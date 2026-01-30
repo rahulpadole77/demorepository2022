@@ -147,7 +147,7 @@ pipeline {
                 submitter: 'dev_user',   // users or groups
                 params: [
                   'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
-                  'Branch'     : $(env.GIT_BRANCH), //(env.BRANCH_NAME ?: 'N/A')
+                  'Branch'     : env.GIT_BRANCH, //(env.BRANCH_NAME ?: 'N/A')
                   'Build URL'  : env.BUILD_URL,
                   'Env'        : params.ENV
                 ],
