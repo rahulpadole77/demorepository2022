@@ -187,19 +187,8 @@ pipeline {
 
           steps {                
               echo "Deploying to environment: ${APP_ENV}"
-              bat 'echo "Deploying application..."'
-                
-                // --- OR trigger a downstream job (uncomment to use) ---
-                // build job: 'Downstream-Job-Name',
-                 //     parameters: [
-                 //        string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
-                  //       string(name: 'ENV', value: 'dev'),
-                 //        string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
-                 //      ],
-                 //      wait: false
+              echo "Deploying application..."                
 
-               
-                // insert kubectl, ansible, terraform, scp etc.
             } 
         }
     }
