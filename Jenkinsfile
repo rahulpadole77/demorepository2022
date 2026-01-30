@@ -195,7 +195,7 @@ pipeline {
                       parameters: [
                          string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
                          string(name: 'ENV', value: 'dev'),
-                         string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'unknown')
+                         string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
                        ],
                        wait: false
 
