@@ -185,10 +185,9 @@ pipeline {
                   }
           }
 
-            steps {                
-                echo "Deploying to environment: ${APP_ENV}"
-                bat 'echo "Deploying application..."'
-
+          steps {                
+              echo "Deploying to environment: ${APP_ENV}"
+              bat 'echo "Deploying application..."'
                 
                 // --- OR trigger a downstream job (uncomment to use) ---
                 // build job: 'Downstream-Job-Name',
