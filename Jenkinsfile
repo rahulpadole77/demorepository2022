@@ -197,7 +197,6 @@ pipeline {
                          //string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
                        ],
                        wait: false
-
             } 
         }
     }
