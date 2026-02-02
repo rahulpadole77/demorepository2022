@@ -85,7 +85,6 @@ pipeline {
         ARTIFACT_DIR   = 'output'
         DL_SUCCESS = 'rahul.padole@gmail.com'
         CHANGE_ID =12234
-
     }
 
     stages {
