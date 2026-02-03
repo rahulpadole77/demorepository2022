@@ -134,7 +134,7 @@ pipeline {
           when {           
             anyOf {
                   // Multibranch: regular branch build
-                  expression { !params.AUTO_APPROVE }
+                  //expression { !params.AUTO_APPROVE }
                   //branch 'dev'
                   // Classic Pipeline or values like origin/main
                   expression { env.GIT_BRANCH == 'dev' }
@@ -193,7 +193,7 @@ pipeline {
             anyOf {
                   // Multibranch: regular branch build
                   //branch 'release/*'
-                  expression { !params.AUTO_APPROVE }
+                  //expression { !params.AUTO_APPROVE }
                   // Classic Pipeline or values like origin/main
                   expression { env.GIT_BRANCH == 'release/*' }
                   // PR builds that target main
