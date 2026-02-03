@@ -171,7 +171,7 @@ pipeline {
                 
         stage("Deploy to DEV") {
           when {           
-            allOf {
+            anyOf {
                   // Multibranch: regular branch build
                   branch 'dev'
                   // Classic Pipeline or values like origin/main
