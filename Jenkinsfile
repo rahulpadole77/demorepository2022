@@ -132,7 +132,7 @@ pipeline {
                       
         stage('Approval Gate (dev)') {
           when {           
-            allOf {
+            anyOf {
                   // Multibranch: regular branch build
                   expression { !params.AUTO_APPROVE }
                   //branch 'dev'
@@ -190,7 +190,7 @@ pipeline {
 
        stage('Approval Gate (qa)') {
           when {           
-            allOf {
+            anyOf {
                   // Multibranch: regular branch build
                   //branch 'release/*'
                   expression { !params.AUTO_APPROVE }
