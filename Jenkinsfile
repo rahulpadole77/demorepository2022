@@ -129,7 +129,7 @@ pipeline {
             }
         }
 
-       stage('Approval Gate' (params.ENV)) {
+       stage('Approval Gate (dev)') {
           when {
             allOf {
               //expression { params.ENV == 'dev' }
@@ -178,7 +178,8 @@ pipeline {
                   expression { env.GIT_BRANCH == 'origin/main' }
                   // PR builds that target main
                   allOf {
-                    expression { env.CHANGE_TARGET == 'main' }
+                    //expression { env.CHANGE_TARGET == 'main' }
+                    expression { params.ENV == 'dev' }
                     //changeRequest()  // ensures it's actually a PR context
                     }
                   }
