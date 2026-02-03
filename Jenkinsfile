@@ -169,7 +169,7 @@ pipeline {
           }
         }
                 
-        stage('Deploy to dev') {
+        stage("Deploy to ${params.ENV}") {
           when {           
             anyOf {
                   // Multibranch: regular branch build
@@ -186,21 +186,21 @@ pipeline {
           }
 
           steps {                
-              echo "Deploying to environment: ${APP_ENV}"
+              echo "Deploying to environment:${params.ENV}"
               echo "Deploying application..."    
 
               // --- OR trigger a downstream job (uncomment to use) ---
                  build job: 'TestBuildJan30',
                       parameters: [
                          string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
-                         string(name: 'ENV', value: 'dev'),
+                         string(name: 'ENV', value: params.ENV),
                          //string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
                        ],
                        wait: false
             } 
         }
 
-       stage('Deploy to qa') {
+       stage("Deploy to ${params.ENV}") {
           when {           
             anyOf {
                   // Multibranch: regular branch build
@@ -217,7 +217,7 @@ pipeline {
           }
 
           steps {                
-              echo "Deploying to environment: ${APP_ENV}"
+              echo "Deploying to environment: ${params.ENV}"
               echo "Deploying application..."    
 
               // --- OR trigger a downstream job (uncomment to use) ---
