@@ -5,7 +5,7 @@ def emailAndWaitForApproval(Map cfg = [:]) {
   def title        = cfg.title ?: 'Deployment Approval Required'
   def detailsHtml  = cfg.detailsHtml ?: '<p>Please review and approve.</p>'
   def timeoutMins  = (cfg.timeoutMins ?: 60) as int
-  def submitter    = cfg.submitter ?: 'dev_user' // users or groups 'approver.user1,approver.user2'
+  def submitter    = cfg.submitter //?: 'dev_user' // users or groups 'approver.user1,approver.user2'
   def okLabel      = cfg.okLabel ?: 'Approve'
   def paramsToShow = cfg.params ?: [:] // Optional map to display in email
 
