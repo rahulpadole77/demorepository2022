@@ -169,20 +169,18 @@ pipeline {
           }
         }
                 
-        stage("Deploy to ${params.ENV}") {
+        stage("Deploy to DEV") {
           when {           
-            anyOf {
+            allOf {
                   // Multibranch: regular branch build
                   branch 'dev'
                   // Classic Pipeline or values like origin/main
                   expression { env.GIT_BRANCH == 'dev' }
                   // PR builds that target main
-                  allOf {
-                    //expression { env.CHANGE_TARGET == 'main' }
-                    expression { params.ENV == 'dev' }
+                  expression { params.ENV == 'dev' }
                     //changeRequest()  // ensures it's actually a PR context
-                    }
                   }
+              }
           }
 
           steps {                
@@ -200,7 +198,7 @@ pipeline {
             } 
         }
 
-       stage("Deploy to ${params.ENV}") {
+       stage("Deploy to QA") {
           when {           
             anyOf {
                   // Multibranch: regular branch build
@@ -208,11 +206,9 @@ pipeline {
                   // Classic Pipeline or values like origin/main
                   expression { env.GIT_BRANCH == 'release/*' }
                   // PR builds that target main
-                  allOf {
-                    //expression { env.CHANGE_TARGET == 'main' }
-                    expression { params.ENV == 'qa' }
+                  expression { params.ENV == 'qa' }
                     //changeRequest()  // ensures it's actually a PR context
-                    }
+                    
                   }
           }
 
