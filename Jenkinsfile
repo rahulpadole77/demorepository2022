@@ -175,7 +175,7 @@ pipeline {
             }
             
               echo "Deploying to environment:${params.ENV}"
-              echo "Deploying application..."    
+              echo "Deploying application to DEV..."    
 
               // --- OR trigger a downstream job (uncomment to use) ---
              build job: 'TestBuildJan30',
@@ -233,7 +233,7 @@ pipeline {
                       }
                   }
                   echo "Deploying to environment: ${params.ENV}"
-                  echo "Deploying application..."    
+                  echo "Deploying application to QA..."    
 
               // --- OR trigger a downstream job (uncomment to use) ---
                  build job: 'TestBuildJan30',
