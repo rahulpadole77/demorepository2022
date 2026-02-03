@@ -5,7 +5,7 @@ def emailAndWaitForApproval(Map cfg = [:]) {
   def title        = cfg.title ?: 'Deployment Approval Required'
   def detailsHtml  = cfg.detailsHtml ?: '<p>Please review and approve.</p>'
   def timeoutMins  = (cfg.timeoutMins ?: 60) as int
-  def submitter    = cfg.submitter ?: 'dev_user' // users or groups 'approver.user1,approver.user2'
+  def submitter    = cfg.submitter //?: 'dev_user' // users or groups 'approver.user1,approver.user2'
   def okLabel      = cfg.okLabel ?: 'Approve'
   def paramsToShow = cfg.params ?: [:] // Optional map to display in email
 
@@ -129,92 +129,111 @@ pipeline {
             }
         }
 
-       stage('Approval Gate (dev)') {
-          when {
-            allOf {
-              //expression { params.ENV == 'dev' }
-              //branch 'main'
-              expression { !params.AUTO_APPROVE }
-            }
-          }
-          steps {
-            script {
-              def approver = emailAndWaitForApproval(
-                recipients: 'reyansh.rahul.2025@gmail.com',
-                title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                timeoutMins: 60,
-                submitter: 'dev_user',   // users or groups
-                params: [
-                  'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
-                  'Branch'     : env.GIT_BRANCH, //(env.BRANCH_NAME ?: 'N/A')
-                  'Build URL'  : env.BUILD_URL,
-                  'Env'        : params.ENV
-                ],
-                detailsHtml: """
-                  <p>This will deploy the following build to <b>PROD</b>.</p>
-                  <ul>
-                    <li>Artifact: <code>app-1.0.0.jar</code> (example)</li>
-                    <li>Change Ticket: <code>${CHANGE_ID ?: 'N/A'}</code></li>
-                  </ul>
-                """
-              )
-              echo "Approval is given by: ${env.APPROVER}" 
-              if (!"${env.APPROVER}") { //approver
-                currentBuild.result = 'ABORTED'
-                error('Approval timed out or approver identity not captured.')
-              } else {
-                echo "Approved by the authorized user:${env.APPROVER}" //approver
-              }
-            }
-          }
-        }
-                
-        stage("Deploy to DEV") {
+                      
+        stage('Approval Gate (dev)') {
           when {           
             anyOf {
                   // Multibranch: regular branch build
+                  //expression { !params.AUTO_APPROVE }
                   //branch 'dev'
                   // Classic Pipeline or values like origin/main
-                  expression { env.GIT_BRANCH == 'dev' }
+                  //expression { env.GIT_BRANCH == 'dev' }
                   // PR builds that target main
                   expression { params.ENV == 'dev' }
                     //changeRequest()  // ensures it's actually a PR context
                   }
               }
           
-
-          steps {                
+          steps {
+                script {
+                  def approver = emailAndWaitForApproval(
+                    recipients: 'reyansh.rahul.2025@gmail.com',
+                    title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    timeoutMins: 60,
+                    submitter: 'dev-user',   // users or groups
+                    params: [
+                      'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
+                      'Branch'     : env.GIT_BRANCH, //(env.BRANCH_NAME ?: 'N/A')
+                      'Build URL'  : env.BUILD_URL,
+                      'Env'        : params.ENV
+                    ],
+                    detailsHtml: """
+                      <p>This will deploy the following build to <b>PROD</b>.</p>
+                      <ul>
+                        <li>Artifact: <code>app-1.0.0.jar</code> (example)</li>
+                        <li>Change Ticket: <code>${CHANGE_ID ?: 'N/A'}</code></li>
+                      </ul>
+                    """
+                  )
+                  echo "Approval is given by: ${env.APPROVER}" 
+                  if (!"${env.APPROVER}") { //approver
+                    currentBuild.result = 'ABORTED'
+                    error('Approval timed out or approver identity not captured.')
+                  } else {
+                    echo "Approved by the authorized user:${env.APPROVER}" //approver
+                  }
+            }
+            
               echo "Deploying to environment:${params.ENV}"
-              echo "Deploying application..."    
+              echo "Deploying application to DEV..."    
 
               // --- OR trigger a downstream job (uncomment to use) ---
-                 build job: 'TestBuildJan30',
-                      parameters: [
-                         string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
-                         string(name: 'ENV', value: params.ENV),
-                         //string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
-                       ],
-                       wait: false
+             build job: 'TestBuildJan30',
+                  parameters: [
+                     string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
+                     string(name: 'ENV', value: params.ENV),
+                     //string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
+                   ],
+                   wait: false
             } 
         }
 
-       stage("Deploy to QA") {
+       stage('Approval Gate (qa)') {
           when {           
             anyOf {
                   // Multibranch: regular branch build
                   //branch 'release/*'
+                  //expression { !params.AUTO_APPROVE }
                   // Classic Pipeline or values like origin/main
-                  expression { env.GIT_BRANCH == 'release/*' }
+                  //expression { env.GIT_BRANCH == 'release/*' }
                   // PR builds that target main
                   expression { params.ENV == 'qa' }
                     //changeRequest()  // ensures it's actually a PR context
                     
                   }
-          }
+          }         
 
-          steps {                
-              echo "Deploying to environment: ${params.ENV}"
-              echo "Deploying application..."    
+          steps {      
+                  script {
+                      def approver = emailAndWaitForApproval(
+                        recipients: 'reyansh.rahul.2025@gmail.com',
+                        title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                        timeoutMins: 60,
+                        submitter: 'padole',   // users or groups
+                        params: [
+                          'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
+                          'Branch'     : env.GIT_BRANCH, //(env.BRANCH_NAME ?: 'N/A')
+                          'Build URL'  : env.BUILD_URL,
+                          'Env'        : params.ENV
+                        ],
+                        detailsHtml: """
+                          <p>This will deploy the following build to <b>PROD</b>.</p>
+                          <ul>
+                            <li>Artifact: <code>app-1.0.0.jar</code> (example)</li>
+                            <li>Change Ticket: <code>${CHANGE_ID ?: 'N/A'}</code></li>
+                          </ul>
+                        """
+                      )
+                      echo "Approval is given by: ${env.APPROVER}" 
+                      if (!"${env.APPROVER}") { //approver
+                        currentBuild.result = 'ABORTED'
+                        error('Approval timed out or approver identity not captured.')
+                      } else {
+                        echo "Approved by the authorized user:${env.APPROVER}" //approver
+                      }
+                  }
+                  echo "Deploying to environment: ${params.ENV}"
+                  echo "Deploying application to QA..."    
 
               // --- OR trigger a downstream job (uncomment to use) ---
                  build job: 'TestBuildJan30',
