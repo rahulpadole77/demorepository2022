@@ -169,30 +169,58 @@ pipeline {
           }
         }
                 
-        stage('Deploy') {
+        stage("Deploy to DEV") {
           when {           
             anyOf {
                   // Multibranch: regular branch build
-                  branch 'main'
+                  //branch 'dev'
                   // Classic Pipeline or values like origin/main
-                  expression { env.GIT_BRANCH == 'origin/main' }
+                  expression { env.GIT_BRANCH == 'dev' }
                   // PR builds that target main
-                  allOf {
-                    expression { env.CHANGE_TARGET == 'main' }
+                  expression { params.ENV == 'dev' }
                     //changeRequest()  // ensures it's actually a PR context
-                    }
                   }
-          }
+              }
+          
 
           steps {                
-              echo "Deploying to environment: ${APP_ENV}"
+              echo "Deploying to environment:${params.ENV}"
               echo "Deploying application..."    
 
               // --- OR trigger a downstream job (uncomment to use) ---
                  build job: 'TestBuildJan30',
                       parameters: [
                          string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
-                         string(name: 'ENV', value: 'dev'),
+                         string(name: 'ENV', value: params.ENV),
+                         //string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
+                       ],
+                       wait: false
+            } 
+        }
+
+       stage("Deploy to QA") {
+          when {           
+            anyOf {
+                  // Multibranch: regular branch build
+                  //branch 'release/*'
+                  // Classic Pipeline or values like origin/main
+                  expression { env.GIT_BRANCH == 'release/*' }
+                  // PR builds that target main
+                  expression { params.ENV == 'qa' }
+                    //changeRequest()  // ensures it's actually a PR context
+                    
+                  }
+          }
+
+          steps {                
+              echo "Deploying to environment: ${params.ENV}"
+              echo "Deploying application..."    
+
+              // --- OR trigger a downstream job (uncomment to use) ---
+                 build job: 'TestBuildJan30',
+                      parameters: [
+                         string(name: 'PARENT_BUILD', value: env.BUILD_TAG),
+                         string(name: 'ENV', value: params.ENV),
                          //string(name: 'APPROVED_BY', value: params.APPROVED_BY ?: 'dev_user')
                        ],
                        wait: false
