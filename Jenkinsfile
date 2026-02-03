@@ -137,7 +137,7 @@ pipeline {
                   //expression { !params.AUTO_APPROVE }
                   //branch 'dev'
                   // Classic Pipeline or values like origin/main
-                  expression { env.GIT_BRANCH == 'dev' }
+                  //expression { env.GIT_BRANCH == 'dev' }
                   // PR builds that target main
                   expression { params.ENV == 'dev' }
                     //changeRequest()  // ensures it's actually a PR context
@@ -195,7 +195,7 @@ pipeline {
                   //branch 'release/*'
                   //expression { !params.AUTO_APPROVE }
                   // Classic Pipeline or values like origin/main
-                  expression { env.GIT_BRANCH == 'release/*' }
+                  //expression { env.GIT_BRANCH == 'release/*' }
                   // PR builds that target main
                   expression { params.ENV == 'qa' }
                     //changeRequest()  // ensures it's actually a PR context
