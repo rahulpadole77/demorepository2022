@@ -143,6 +143,14 @@ pipeline {
                     //changeRequest()  // ensures it's actually a PR context
                   }
               }
+
+          steps {
+                echo "Pulling code from GitHub..."
+                git branch: 'dev', 
+                    url: "${REPO_URL}",
+                    credentialsId:"${CREDENTIALS_ID}"
+                //checkout scm   // Works automatically in multibranch pipelines
+            }
           
           steps {
                 script {
@@ -201,7 +209,15 @@ pipeline {
                     //changeRequest()  // ensures it's actually a PR context
                     
                   }
-          }         
+          }  
+
+         steps {
+                echo "Pulling code from GitHub..."
+                git branch: 'test', 
+                    url: "${REPO_URL}",
+                    credentialsId:"${CREDENTIALS_ID}"
+                //checkout scm   // Works automatically in multibranch pipelines
+            }
 
           steps {      
                   script {
