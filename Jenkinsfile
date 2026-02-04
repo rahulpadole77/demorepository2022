@@ -144,15 +144,14 @@ pipeline {
                   }
               }
 
+                   
           steps {
-                echo "Pulling code from GitHub..."
+            
+                echo "Pulling code from GitHub DEV branch"
                 git branch: 'dev', 
                     url: "${REPO_URL}",
                     credentialsId:"${CREDENTIALS_ID}"
-                //checkout scm   // Works automatically in multibranch pipelines
-            }
-          
-          steps {
+            
                 script {
                   def approver = emailAndWaitForApproval(
                     recipients: 'reyansh.rahul.2025@gmail.com',
@@ -211,15 +210,13 @@ pipeline {
                   }
           }  
 
-         steps {
-                echo "Pulling code from GitHub..."
+         steps { 
+
+                echo "Pulling code from GitHub TEST branch..."
                 git branch: 'test', 
                     url: "${REPO_URL}",
                     credentialsId:"${CREDENTIALS_ID}"
                 //checkout scm   // Works automatically in multibranch pipelines
-            }
-
-          steps {      
                   script {
                       def approver = emailAndWaitForApproval(
                         recipients: 'reyansh.rahul.2025@gmail.com',
