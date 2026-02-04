@@ -159,7 +159,7 @@ pipeline {
                     recipients: 'reyansh.rahul.2025@gmail.com',
                     title: "Approve ${params.ENV} deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                     timeoutMins: 60,
-                    submitter: 'dev_user',   // users or groups
+                    submitter: 'dev-approver',   // users or groups
                     params: [
                       'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
                       'Branch'     : "${DEV_BRANCH_NAME}", //(env.BRANCH_NAME ?: 'N/A')
@@ -224,7 +224,7 @@ pipeline {
                         recipients: 'reyansh.rahul.2025@gmail.com',
                         title: "Approve ${params.ENV} deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         timeoutMins: 60,
-                        submitter: 'padole',   // users or groups
+                        submitter: 'qa-approver',   // users or groups
                         params: [
                           'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
                           'Branch'     : "${QA_BRANCH_NAME}", //(env.BRANCH_NAME ?: 'N/A') GIT_BRANCH
