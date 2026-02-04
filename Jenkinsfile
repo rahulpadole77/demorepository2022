@@ -160,7 +160,7 @@ pipeline {
                     submitter: 'dev-user',   // users or groups
                     params: [
                       'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
-                      'Branch'     : env.GIT_BRANCH, //(env.BRANCH_NAME ?: 'N/A')
+                      'Branch'     : env.BRANCH_NAME, //(env.BRANCH_NAME ?: 'N/A')
                       'Build URL'  : env.BUILD_URL,
                       'Env'        : params.ENV
                     ],
@@ -225,7 +225,7 @@ pipeline {
                         submitter: 'padole',   // users or groups
                         params: [
                           'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
-                          'Branch'     : env.GIT_BRANCH, //(env.BRANCH_NAME ?: 'N/A')
+                          'Branch'     : env.BRANCH_NAME, //(env.BRANCH_NAME ?: 'N/A') GIT_BRANCH
                           'Build URL'  : env.BUILD_URL,
                           'Env'        : params.ENV
                         ],
