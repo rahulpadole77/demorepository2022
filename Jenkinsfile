@@ -156,7 +156,7 @@ pipeline {
                 script {
                   def approver = emailAndWaitForApproval(
                     recipients: 'reyansh.rahul.2025@gmail.com',
-                    title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                    title: "Approve ${params.ENV} deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                     timeoutMins: 60,
                     submitter: 'dev-user',   // users or groups
                     params: [
@@ -223,7 +223,7 @@ pipeline {
                   script {
                       def approver = emailAndWaitForApproval(
                         recipients: 'reyansh.rahul.2025@gmail.com',
-                        title: "Approve DEV deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                        title: "Approve ${params.ENV} deployment for ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         timeoutMins: 60,
                         submitter: 'padole',   // users or groups
                         params: [
