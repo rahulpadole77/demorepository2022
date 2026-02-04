@@ -73,8 +73,8 @@ pipeline {
 
     environment {
         // Add global variables here
-        DEV_BRANCH_NAMR = "dev"
-        QA_BRANCH_NAME="Test"
+        DEV_BRANCH_NAME = "dev"
+        QA_BRANCH_NAME="test"
         PROD_BRANCH_NAME="main"
         PYTHON_EXE = "C:\\Program Files\\Python313\\python.exe"      // Path to Python
         //DEV_SERVER = "dev.example.com"            // Replace with your DEV target
@@ -162,7 +162,7 @@ pipeline {
                     submitter: 'dev-user',   // users or groups
                     params: [
                       'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
-                      'Branch'     : env.BRANCH_NAME, //(env.BRANCH_NAME ?: 'N/A')
+                      'Branch'     : "${DEV_BRANCH_NAME}", //(env.BRANCH_NAME ?: 'N/A')
                       'Build URL'  : env.BUILD_URL,
                       'Env'        : params.ENV
                     ],
@@ -227,7 +227,7 @@ pipeline {
                         submitter: 'padole',   // users or groups
                         params: [
                           'Git Commit' : (env.GIT_COMMIT ?: 'N/A'),
-                          'Branch'     : env.BRANCH_NAME, //(env.BRANCH_NAME ?: 'N/A') GIT_BRANCH
+                          'Branch'     : "${QA_BRANCH_NAME}", //(env.BRANCH_NAME ?: 'N/A') GIT_BRANCH
                           'Build URL'  : env.BUILD_URL,
                           'Env'        : params.ENV
                         ],
