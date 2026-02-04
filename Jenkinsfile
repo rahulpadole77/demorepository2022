@@ -73,7 +73,9 @@ pipeline {
 
     environment {
         // Add global variables here
-        APP_ENV = "dev"        
+        DEV_BRANCH_NAMR = "dev"
+        QA_BRANCH_NAME="Test"
+        PROD_BRANCH_NAME="main"
         PYTHON_EXE = "C:\\Program Files\\Python313\\python.exe"      // Path to Python
         //DEV_SERVER = "dev.example.com"            // Replace with your DEV target
         DEV_DEPLOY_PATH = "C:\\deploy\\app"       // DEPLOY directory in DEV
@@ -165,7 +167,7 @@ pipeline {
                       'Env'        : params.ENV
                     ],
                     detailsHtml: """
-                      <p>This will deploy the following build to <b>PROD</b>.</p>
+                      <p>This will deploy the following build to <b>${params.ENV}</b>.</p>
                       <ul>
                         <li>Artifact: <code>app-1.0.0.jar</code> (example)</li>
                         <li>Change Ticket: <code>${CHANGE_ID ?: 'N/A'}</code></li>
@@ -230,7 +232,7 @@ pipeline {
                           'Env'        : params.ENV
                         ],
                         detailsHtml: """
-                          <p>This will deploy the following build to <b>PROD</b>.</p>
+                          <p>This will deploy the following build to <b>${params.ENV}</b>.</p>
                           <ul>
                             <li>Artifact: <code>app-1.0.0.jar</code> (example)</li>
                             <li>Change Ticket: <code>${CHANGE_ID ?: 'N/A'}</code></li>
