@@ -9,6 +9,8 @@ def emailAndWaitForApproval(Map cfg = [:]) {
   def okLabel      = cfg.okLabel ?: 'Approve'
   def paramsToShow = cfg.params ?: [:] // Optional map to display in email
 
+  echo "Submitter is set as ${submitter}"
+  
   // Build a simple table for parameters (optional)
   def paramRows = paramsToShow.collect { k, v -> "<tr><td><b>${k}</b></td><td>${v}</td></tr>" }.join('\n')
 
@@ -52,7 +54,8 @@ def emailAndWaitForApproval(Map cfg = [:]) {
     )
     //approver = currentBuild.rawBuild.getAction(hudson.model.CauseAction)?.causes?.find { it.userId }?.userId
   }
-  return env.APPROVER
+  echo "Approved by userId: ${env.APPROVER}"
+  return "${env.APPROVER}"
 }
 pipeline {
     agent any   // Use any available Jenkins agent/runner
