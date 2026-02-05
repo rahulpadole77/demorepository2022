@@ -178,12 +178,12 @@ pipeline {
                       </ul>
                     """
                   )
-                  echo "Approval is given by: ${env.APPROVER}" 
+                  echo "Approval is given by: ${approver}" 
                   if (!"${env.APPROVER}") { //approver
                     currentBuild.result = 'ABORTED'
                     error('Approval timed out or approver identity not captured.')
                   } else {
-                    echo "Approved by the authorized user:${env.APPROVER}" //approver
+                    echo "Approved by the authorized user:${approver}" //approver
                   }
             }
             
