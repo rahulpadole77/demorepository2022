@@ -38,7 +38,7 @@ def emailAndWaitForApproval(Map cfg = [:]) {
   )
 
   // Wait for approval with timeout & submitter restriction
-  def approver = null
+  //def approver = null
   timeout(time: timeoutMins, unit: 'MINUTES') {
     def userInput = input(
       id: 'ApprovalGate',
